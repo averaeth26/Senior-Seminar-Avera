@@ -2,5 +2,5 @@ import java.util.ArrayList;
 
 public class Instructor {
     String name;
-    int coursesTaught
+    ArrayList<Integer> coursesTaught = new ArrayList<Integer>();
 }

@@ -8,8 +8,8 @@ public class Student {
         name = separatedData[3];
         email = separatedData[1];
         submissionTime = separatedData[0];
-        for (int choice = 1; choice <= 5; choice ++) {
-            
+        for (int i = 0; i < 5; i ++) {
+            choices[i] = Integer.parseInt(separatedData[i+4]);
         }
     }
 
