@@ -3,6 +3,7 @@ public class Student {
     String email;
     String submissionTime;
     int[] choices = new int[5];
+    Course[] courses = new Course[5];
     public Student(String data) {
         String[] separatedData = data.split(",");
         name = separatedData[3];
@@ -13,4 +14,11 @@ public class Student {
         }
     }
 
+    public String toString() {
+        String build = name + " can be reached at " + email + " and is taking: ";
+        for (Course course : courses) {
+            
+        }
+        return build;
+    }
 }
