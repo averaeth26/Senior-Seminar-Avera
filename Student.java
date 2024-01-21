@@ -4,8 +4,8 @@ public class Student {
     String submissionTime;
     int[] choices = new int[5];
     Course[] courses = new Course[5];
-    public Student(String data) {
-        String[] separatedData = data.split(",");
+    public Student(String studentInfo) {
+        String[] separatedData = studentInfo.split(",");
         name = separatedData[3];
         email = separatedData[1];
         submissionTime = separatedData[0];
@@ -20,5 +20,9 @@ public class Student {
             
         }
         return build;
+    }
+
+    public int[] getChoices() {
+        return choices;
     }
 }
