@@ -1,8 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Tester {
     /* Rules to Note:
@@ -21,7 +17,9 @@ public class Tester {
         for (Student student : students) {
             System.out.println(student);
         }
-        System.out.println(d1.generateCourseRoster(courses, students));
-
+        ArrayList<Course> courseRoster = d1.generateCourseRoster(courses, students);
+        for (int i = 0; i < 25; i++) {
+            System.out.println(d1.calculateCourseConflicts(courseRoster.get(0), courses, courseRoster, students)[i]);
+        }
     }
-}
+}        

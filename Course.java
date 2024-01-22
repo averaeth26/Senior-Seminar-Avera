@@ -20,6 +20,18 @@ public class Course {
         return courseID;
     }
 
+    public void addNumSessions() {
+        numSessions++;
+    }
+
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
+
+    public String getInstructorName() {
+        return instructorName;
+    }
+
 
     
 

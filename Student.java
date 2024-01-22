@@ -17,7 +17,7 @@ public class Student {
     public String toString() {
         String build = name + " can be reached at " + email + " and is taking: ";
         for (Course course : courses) {
-            
+            // To be implemented...
         }
         return build;
     }

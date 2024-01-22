@@ -87,14 +87,42 @@ public class Seminar {
             System.out.println(courses.get(courseNum));
             interestLevels.add(countCourse(students, courses.get(courseNum).getCourseID()));
         }
-        // Collections.sort(interestLevels);
         System.out.println(interestLevels);
         for (int i = 0; i < courses.size(); i++) {
-            for (int j = Math.min(interestLevels.get(i), 32); j > 0; j-= 16) { // Adds either 1 or 2 sections of each course to the roster depending on the interest level
+            for (int j = Math.min(interestLevels.get(i), courses.get(i).getMaxCapacity()*2); j > 0; j-= courses.get(i).getMaxCapacity()) { // Adds either 1 or 2 sections of each course to the roster depending on the interest level
                 courseSlots.add(courses.get(i));
+                courses.get(i).addNumSessions();
             }
         }
         return courseSlots;
+    }
 
+    public boolean arrContains(int[] arr, int testVal) {
+        for (int value : arr) {
+            if (value == testVal) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int[] calculateCourseConflicts(Course course, ArrayList<Course> courses, ArrayList<Student> students) {
+        int[] numConflicts = new int[courses.size()];
+        int courseIndex = 0;
+        for (Course course2 : courses) {
+            if (course.getInstructorName().equals(course2.getInstructorName())) {
+                numConflicts[courseIndex] = students.size(); // If two courses are taught by the same person, they aren't compatible
+                courseIndex ++;
+                continue;
+
+            }
+            for (Student student : students) {
+                if (arrContains(student.getChoices(), course.getCourseID()) && arrContains(student.getChoices(), course2.getCourseID())) {
+                    numConflicts[courseIndex] ++;
+                }
+            }
+            courseIndex ++;
+        }
+        return numConflicts;
     }
 }
