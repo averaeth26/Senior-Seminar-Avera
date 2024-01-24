@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Seminar {
     ArrayList<String> personData = new ArrayList<String>();
@@ -123,6 +124,37 @@ public class Seminar {
             }
             courseIndex ++;
         }
-        return numConflicts;
+        return numConflicts; 
+    }
+
+    public int findMinIndex(int[] arr) {
+        int minIndex = 0;
+        int min = arr[0];
+        for (int j = 0; j < arr.length; j++) {
+            if (arr[j] < min) {
+                minIndex = j;
+                min = arr[j];
+            }
+        }
+        return minIndex;
+    }
+
+    public Course[] calculateScheduleBlocks(Course course, ArrayList<Course> courseRoster, ArrayList<Student> students) {
+        int[] conflicts = calculateCourseConflicts(course, courseRoster, students);
+        System.out.println(conflicts.length);
+        Course[] courseBlocks = new Course[5];
+        int[] newConflicts = new int[courseRoster.size()];
+        courseBlocks[0] = course;
+        for (int i = 1; i < 5; i++) {
+            int minIndex = findMinIndex(conflicts);
+            courseBlocks[i] = courseRoster.get(minIndex);
+            newConflicts = calculateCourseConflicts(courseBlocks[i], courseRoster, students);
+            System.out.println
+            for (int j = 0; j < conflicts.length; j++) {
+                conflicts[j] += newConflicts[j];
+            }
+            courseRoster.remove(minIndex);
+        }
+        return courseBlocks;
     }
 }

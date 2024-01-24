@@ -18,8 +18,6 @@ public class Tester {
             System.out.println(student);
         }
         ArrayList<Course> courseRoster = d1.generateCourseRoster(courses, students);
-        for (int i = 0; i < 25; i++) {
-            System.out.println(d1.calculateCourseConflicts(courseRoster.get(0), courses, courseRoster, students)[i]);
-        }
+        System.out.println(d1.calculateScheduleBlocks(courseRoster.get(0), courseRoster, students));
     }
 }        
