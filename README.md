@@ -11,3 +11,6 @@ Today, I created a function to calculate the number of conficts between specifie
 
 1/24/24: <br>
 Today, I worked on sorting the classes into their optimal timeslots in order to minimize the number of conflicts between courses, but I ran into some technical difficulties and wasn't able to get it fully working.
+
+1/26/24: <br>
+Today, I finished the class sorting program and generated a schedule of class blocks. This function isn't perfect yet, but I wll continue to improve it as I develop the program.
