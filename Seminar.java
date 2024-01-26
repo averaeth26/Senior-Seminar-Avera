@@ -87,6 +87,7 @@ public class Seminar {
         for (int courseNum = 0; courseNum < courses.size(); courseNum++) {
             System.out.println(courses.get(courseNum));
             interestLevels.add(countCourse(students, courses.get(courseNum).getCourseID()));
+            courses.get(courseNum).setInterestLevel(countCourse(students, courses.get(courseNum).getCourseID()));
         }
         System.out.println(interestLevels);
         for (int i = 0; i < courses.size(); i++) {
@@ -107,53 +108,53 @@ public class Seminar {
         return false;
     }
 
-    public int[] calculateCourseConflicts(Course course, ArrayList<Course> courses, ArrayList<Student> students) {
-        int[] numConflicts = new int[courses.size()];
-        int courseIndex = 0;
-        for (Course course2 : courses) {
-            if (course.getInstructorName().equals(course2.getInstructorName())) {
-                numConflicts[courseIndex] = students.size(); // If two courses are taught by the same person, they aren't compatible
-                courseIndex ++;
+    public ArrayList<Integer> calculateCourseConflicts(Course course, ArrayList<Course> courses, ArrayList<Student> students) {
+        ArrayList<Integer> numConflicts = new ArrayList<Integer>();
+        for (int i = 0; i < courses.size(); i++) {
+            if (course.getInstructorName().equals(courses.get(i).getInstructorName())) {
+                numConflicts.add(students.size()); // If two courses are taught by the same person, they aren't compatible
                 continue;
 
             }
+            int currentConflicts = 0;
             for (Student student : students) {
-                if (arrContains(student.getChoices(), course.getCourseID()) && arrContains(student.getChoices(), course2.getCourseID())) {
-                    numConflicts[courseIndex] ++;
+                if (arrContains(student.getChoices(), course.getCourseID()) && arrContains(student.getChoices(), courses.get(i).getCourseID())) {
+                    currentConflicts ++;
                 }
             }
-            courseIndex ++;
+            numConflicts.add(currentConflicts);
         }
-        return numConflicts; 
+        return numConflicts;
     }
 
-    public int findMinIndex(int[] arr) {
+    public int findMinIndex(ArrayList<Integer> arr) {
         int minIndex = 0;
-        int min = arr[0];
-        for (int j = 0; j < arr.length; j++) {
-            if (arr[j] < min) {
+        int min = arr.get(0);
+        for (int j = 0; j < arr.size(); j++) {
+            if (arr.get(j) < min) {
                 minIndex = j;
-                min = arr[j];
+                min = arr.get(j);
             }
         }
         return minIndex;
     }
 
     public Course[] calculateScheduleBlocks(Course course, ArrayList<Course> courseRoster, ArrayList<Student> students) {
-        int[] conflicts = calculateCourseConflicts(course, courseRoster, students);
-        System.out.println(conflicts.length);
+        ArrayList<Integer> conflicts = calculateCourseConflicts(course, courseRoster, students);
+        courseRoster.remove(0);
+            conflicts.remove(0);
         Course[] courseBlocks = new Course[5];
-        int[] newConflicts = new int[courseRoster.size()];
+        ArrayList<Integer> newConflicts = new ArrayList<Integer>();
         courseBlocks[0] = course;
         for (int i = 1; i < 5; i++) {
             int minIndex = findMinIndex(conflicts);
             courseBlocks[i] = courseRoster.get(minIndex);
             newConflicts = calculateCourseConflicts(courseBlocks[i], courseRoster, students);
-            System.out.println
-            for (int j = 0; j < conflicts.length; j++) {
-                conflicts[j] += newConflicts[j];
+            for (int j = 0; j < courseRoster.size(); j++) {
+                conflicts.set(j, conflicts.get(j) + newConflicts.get(j));
             }
             courseRoster.remove(minIndex);
+            conflicts.remove(minIndex);
         }
         return courseBlocks;
     }

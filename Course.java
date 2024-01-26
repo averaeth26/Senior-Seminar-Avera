@@ -3,6 +3,7 @@ public class Course {
     int courseID;
     String instructorName;
     int numSessions;
+    int interestLevel;
     int maxCapacity = 16;
 
     public Course(String courseInfo) {
@@ -30,6 +31,14 @@ public class Course {
 
     public String getInstructorName() {
         return instructorName;
+    }
+
+    public void setInterestLevel(int level) {
+        interestLevel = level;
+    }
+
+    public int getInterestLevel() {
+        return interestLevel;
     }
 
 

@@ -18,6 +18,15 @@ public class Tester {
             System.out.println(student);
         }
         ArrayList<Course> courseRoster = d1.generateCourseRoster(courses, students);
-        System.out.println(d1.calculateScheduleBlocks(courseRoster.get(0), courseRoster, students));
+        Course[][] courseCalendar = new Course[5][5];
+        for (int i = 0; i < courseCalendar.length; i++) {
+            Course[] block1 = d1.calculateScheduleBlocks(courseRoster.get(0), courseRoster, students);
+            for (int j = 0; j < block1.length; j++) {
+                courseCalendar[i][j] = block1[j];
+                System.out.println(block1[j]);
+            }
+            System.out.println();
+        }
+        
     }
 }        
