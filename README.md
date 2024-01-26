@@ -8,3 +8,6 @@ Today, I finished formattng the student data and created a Student class to stor
 
 1/22/24: <br>
 Today, I created a function to calculate the number of conficts between specified courses. This function will be used in the future to decide which classes should be paired in the same time blocks together.
+
+1/24/24: <br>
+Today, I worked on sorting the classes into their optimal timeslots in order to minimize the number of conflicts between courses, but I ran into some technical difficulties and wasn't able to get it fully working.
