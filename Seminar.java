@@ -91,22 +91,34 @@ public class Seminar {
         }
         System.out.println(interestLevels);
         for (int i = 0; i < courses.size(); i++) {
-            for (int j = Math.min(interestLevels.get(i), courses.get(i).getMaxCapacity()*2); j > 0; j-= courses.get(i).getMaxCapacity()) { // Adds either 1 or 2 sections of each course to the roster depending on the interest level
+            courseSlots.add(courses.get(i));
+            if (courses.get(i).getInterestLevel() > courses.get(i).getMaxCapacity()) {
                 courseSlots.add(courses.get(i));
-                courses.get(i).addNumSessions();
             }
         }
         return courseSlots;
     }
 
-    public boolean arrContains(int[] arr, int testVal) {
+    public int arrCount(int[] arr, int testVal) {
+        int counter = 0;
         for (int value : arr) {
             if (value == testVal) {
-                return true;
+                counter ++;
             }
         }
-        return false;
+        return counter;
     }
+
+    public int countInstructor(ArrayList<Course> arr, String instrutorName) {
+        int counter = 0;
+        for (Course value : arr) {
+            if (value.getInstructorName() == instrutorName) {
+                counter ++;
+            }
+        }
+        return counter;
+    }
+
 
     public ArrayList<Integer> calculateCourseConflicts(Course course, ArrayList<Course> courses, ArrayList<Student> students) {
         ArrayList<Integer> numConflicts = new ArrayList<Integer>();
@@ -118,7 +130,7 @@ public class Seminar {
             }
             int currentConflicts = 0;
             for (Student student : students) {
-                if (arrContains(student.getChoices(), course.getCourseID()) && arrContains(student.getChoices(), courses.get(i).getCourseID())) {
+                if (arrCount(student.getChoices(), course.getCourseID()) > 0 && arrCount(student.getChoices(), courses.get(i).getCourseID()) > 0) {
                     currentConflicts ++;
                 }
             }
@@ -142,12 +154,18 @@ public class Seminar {
     public Course[] calculateScheduleBlocks(Course course, ArrayList<Course> courseRoster, ArrayList<Student> students) {
         ArrayList<Integer> conflicts = calculateCourseConflicts(course, courseRoster, students);
         courseRoster.remove(0);
-            conflicts.remove(0);
+        conflicts.remove(0);
         Course[] courseBlocks = new Course[5];
         ArrayList<Integer> newConflicts = new ArrayList<Integer>();
         courseBlocks[0] = course;
+        
         for (int i = 1; i < 5; i++) {
             int minIndex = findMinIndex(conflicts);
+            for (int j = 0; j < courseRoster.size(); j++) {
+                if (countInstructor(courseRoster, courseRoster.get(j).getInstructorName())*5 > courseRoster.size()) {
+                    minIndex = j;
+                }
+            }
             courseBlocks[i] = courseRoster.get(minIndex);
             newConflicts = calculateCourseConflicts(courseBlocks[i], courseRoster, students);
             for (int j = 0; j < courseRoster.size(); j++) {
