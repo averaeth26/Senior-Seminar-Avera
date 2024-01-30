@@ -67,7 +67,7 @@ public class Seminar {
     public int countCourse(ArrayList<Student> students, int testID) {
         int count = 0;
         for (Student student : students) {
-            for (int choiceID : student.getChoices()) {
+            for (int choiceID : student.getChoiceIDs()) {
                 if (choiceID == testID) {
                     count ++;
                     break;
@@ -130,7 +130,7 @@ public class Seminar {
             }
             int currentConflicts = 0;
             for (Student student : students) {
-                if (arrCount(student.getChoices(), course.getCourseID()) > 0 && arrCount(student.getChoices(), courses.get(i).getCourseID()) > 0) {
+                if (arrCount(student.getChoiceIDs(), course.getCourseID()) > 0 && arrCount(student.getChoiceIDs(), courses.get(i).getCourseID()) > 0) {
                     currentConflicts ++;
                 }
             }
@@ -176,4 +176,17 @@ public class Seminar {
         }
         return courseBlocks;
     }
+    public Course[][] generateCourseCalendar(ArrayList<Course> courseRoster, ArrayList<Student> students) {
+        Course[][] courseCalendar = new Course[5][5];
+        for (int i = 0; i < courseCalendar.length; i++) {
+            Course[] block1 = calculateScheduleBlocks(courseRoster.get(0), courseRoster, students);
+            for (int j = 0; j < block1.length; j++) {
+                courseCalendar[i][j] = block1[j];
+                System.out.println(block1[j]);
+            }
+            System.out.println();
+        }
+        return courseCalendar;
+    }
+   
 }
