@@ -14,3 +14,6 @@ Today, I worked on sorting the classes into their optimal timeslots in order to 
 
 1/26/24: <br>
 Today, I finished the class sorting program and generated a schedule of class blocks. This function isn't perfect yet, but I wll continue to improve it as I develop the program.
+
+1/30/24: <br>
+Today, I fixed the functionality of the class sorting program and generated a schedule of optimal courses. I also began working on a function to calculate the optimal schedule for each student given the now-created schedule.
