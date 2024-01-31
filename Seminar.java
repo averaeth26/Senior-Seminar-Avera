@@ -151,6 +151,11 @@ public class Seminar {
         return minIndex;
     }
 
+    /*
+    Possible rework to this function:
+    - Put all of the courses in in their default order and calculate a "sum" of conflicts.
+    -  Then swap two of them at a time if a swap would result in a lower sum (probably recursively) until no more swaps can be made.
+    */
     public Course[] calculateScheduleBlocks(Course course, ArrayList<Course> courseRoster, ArrayList<Student> students) {
         ArrayList<Integer> conflicts = calculateCourseConflicts(course, courseRoster, students);
         courseRoster.remove(0);

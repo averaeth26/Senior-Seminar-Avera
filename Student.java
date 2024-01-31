@@ -52,7 +52,7 @@ public class Student {
                 continue;
             }
             for (int id : choiceIDs) {
-                if (arrContains(courseCalendar[i], i)) {
+                if (arrContains(courseCalendar[i], id)) {
                     choices[i] = courses.get(id-1);
                 }
             }

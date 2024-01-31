@@ -20,7 +20,9 @@ public class Tester {
         ArrayList<Course> courseRoster = d1.generateCourseRoster(courses, students);
         Course[][] courseCalendar = new Course[5][5];
         courseCalendar = d1.generateCourseCalendar(courseRoster, students);
-        students.get(0).calculateGuaranteedSlots(courseCalendar, courses);
+        for (Student student : students) {
+            student.calculateGuaranteedSlots(courseCalendar, courses);
+        }
         for (Course val : students.get(0).getChoices()) {
             System.out.println(val);
         }
