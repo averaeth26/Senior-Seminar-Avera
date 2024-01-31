@@ -5,6 +5,7 @@ public class Course {
     int numSessions;
     int interestLevel;
     int maxCapacity = 16;
+    Student[] currentlyEnrolled = new Student[16];
 
     public Course(String courseInfo) {
         String[] separatedData = courseInfo.split(",");

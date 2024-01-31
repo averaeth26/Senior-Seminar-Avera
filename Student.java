@@ -5,7 +5,7 @@ public class Student {
     String email;
     String submissionTime;
     int[] choiceIDs = new int[5];
-    ArrayList<Course> choices = new ArrayList<Course>();
+    Course[] choices = new Course[5];
     public Student(String studentInfo) {
         String[] separatedData = studentInfo.split(",");
         name = separatedData[3];
@@ -24,19 +24,46 @@ public class Student {
         return build;
     }
 
-    public int[] generateChoiceConflicts(Course[][] courseCalendar, ArrayList<Course> courses) {
-        int[] choiceConflicts = new int[5];
-        for (int i = 0; i < choices.size(); i++) {
-            for (int j = 0; j < courseCalendar.length; j++) {
-                if (courseCalendar[i][j] == choices.get(j)) {
-                    choiceConflicts[i] ++;
+    public int arrCountContains(Course[] arr, int[] arr2) {
+        int counter = 0;
+        for (Course element : arr) {
+            for (int element2 : arr2)
+                if (element.getCourseID() == element2) {
+                    counter ++;
+                }
+        }
+        return counter;
+    }
+
+    public boolean arrContains(Course[] arr, int testVal) {
+        for (Course element : arr) {
+            if (element.getCourseID() == testVal) {
+                return true;
+            }
+        }
+        return false;
+    }
+// Notes for self:
+// Generate "Hopeful" roster for each student, then, swap out any students over the maximum,
+// prioritizing swapping those who had a "conflict" that block as they will still get one of their choices
+    public void calculateGuaranteedSlots(Course[][] courseCalendar, ArrayList<Course> courses) {
+    for (int i = 0; i < courseCalendar.length; i++) {
+            if (arrCountContains(courseCalendar[i], choiceIDs) > 1) {
+                continue;
+            }
+            for (int id : choiceIDs) {
+                if (arrContains(courseCalendar[i], i)) {
+                    choices[i] = courses.get(id-1);
                 }
             }
         }
-        return choiceConflicts;
     }
 
     public int[] getChoiceIDs() {
         return choiceIDs;
+    }
+
+    public Course[] getChoices() {
+        return choices;
     }
 }
