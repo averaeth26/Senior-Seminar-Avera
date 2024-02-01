@@ -20,3 +20,6 @@ Today, I fixed the functionality of the class sorting program and generated a sc
 
 1/31/24: <br>
 Today, I spent a lot of time theorycrafting how to make a better course scheduling algorithm, and I implemented a first draft in code, although it isn't fully functional yet.
+
+2/1/24: <br>
+Today, I finished the course scheduling algorithm, and I also completed a first draft of the student scheduling function, although it is currently still a work in progress.
