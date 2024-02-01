@@ -37,7 +37,7 @@ public class Student {
 
     public boolean arrContains(Course[] arr, int testVal) {
         for (Course element : arr) {
-            if (element.getCourseID() == testVal) {
+            if (element != null && element.getCourseID() == testVal) {
                 return true;
             }
         }
@@ -52,7 +52,7 @@ public class Student {
                 continue;
             }
             for (int id : choiceIDs) {
-                if (arrContains(courseCalendar[i], id)) {
+                if (arrContains(courseCalendar[i], id) && !arrContains(choices, id)) {
                     choices[i] = courses.get(id-1);
                 }
             }
@@ -65,5 +65,9 @@ public class Student {
 
     public Course[] getChoices() {
         return choices;
+    }
+
+    public String getName() {
+        return name;
     }
 }

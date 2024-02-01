@@ -23,7 +23,8 @@ public class Tester {
         for (Student student : students) {
             student.calculateGuaranteedSlots(courseCalendar, courses);
         }
-        for (Course val : students.get(0).getChoices()) {
+        System.out.println(students.get(2).getName());
+        for (Course val : students.get(2).getChoices()) {
             System.out.println(val);
         }
     }
