@@ -47,7 +47,8 @@ public class Student {
 // Generate "Hopeful" roster for each student, then, swap out any students over the maximum,
 // prioritizing swapping those who had a "conflict" that block as they will still get one of their choices
     public void calculateGuaranteedSlots(Course[][] courseCalendar, ArrayList<Course> courses) {
-    for (int i = 0; i < courseCalendar.length; i++) {
+        for (int i = 0; i < courseCalendar.length; i++) {
+
             if (arrCountContains(courseCalendar[i], choiceIDs) > 1) {
                 continue;
             }
@@ -55,6 +56,22 @@ public class Student {
                 if (arrContains(courseCalendar[i], id) && !arrContains(choices, id)) {
                     choices[i] = courses.get(id-1);
                 }
+            }
+        }
+
+        // for (Course val : choices) {
+        //     System.out.println(val);
+        // }
+
+        for (int i = 0; i < courseCalendar.length; i++) {
+            if (arrCountContains(courseCalendar[i], choiceIDs) > 1) {
+                int minIntrest = 0;
+                for (int id : choiceIDs) {
+                    if (arrContains(courseCalendar[i], id) && courses.get(id-1).getInterestLevel() < courses.get(minIntrest).getInterestLevel() && !arrContains(choices, id)) {
+                        minIntrest = id-1;
+                    }
+                }
+                choices[i] = courses.get(minIntrest);
             }
         }
     }

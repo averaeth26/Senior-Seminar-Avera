@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Course {
     String courseName;
     int courseID;
@@ -25,6 +27,11 @@ public class Course {
     public void addNumSessions() {
         numSessions++;
     }
+
+    public int getNumSessions() {
+        return numSessions;
+    }
+
 
     public int getMaxCapacity() {
         return maxCapacity;

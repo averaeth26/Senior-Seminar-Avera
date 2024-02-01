@@ -168,8 +168,8 @@ public class Seminar {
         int score = 0;
         for (Student student : students) {
             for (int row = 0; row < courseGrid.length; row++) {
-                if (arrCountContains(courseGrid[row], student.getChoiceIDs()) > 1) {
-                    score += (arrCountContains(courseGrid[row], student.getChoiceIDs()) - 1);
+                if (arrCountContains(courseGrid[row], student.getChoiceIDs()) == 0) {
+                    score ++;
                 }
             }
         }
