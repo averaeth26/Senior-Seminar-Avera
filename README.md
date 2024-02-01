@@ -17,3 +17,6 @@ Today, I finished the class sorting program and generated a schedule of class bl
 
 1/30/24: <br>
 Today, I fixed the functionality of the class sorting program and generated a schedule of optimal courses. I also began working on a function to calculate the optimal schedule for each student given the now-created schedule.
+
+1/31/24: <br>
+Today, I spent a lot of time theorycrafting how to make a better course scheduling algorithm, and I implemented a first draft in code, although it isn't fully functional yet.
