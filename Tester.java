@@ -32,9 +32,13 @@ public class Tester {
             System.out.println(counter);
         }
         d1.placeStudents(courseCalendar, students);
+        double average = 0;
         for (Student student : students) {
             // student.calculateSlot(courseCalendar, courses);
             System.out.println(student.getName() + ": " + d1.arrCountContains(student.getChoices(), student.getChoiceIDs()));
+            average += d1.arrCountContains(student.getChoices(), student.getChoiceIDs());
         }
+        average /= students.size();
+        System.out.println(average);
     }
 }         

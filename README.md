@@ -23,3 +23,6 @@ Today, I spent a lot of time theorycrafting how to make a better course scheduli
 
 2/1/24: <br>
 Today, I finished the course scheduling algorithm, and I also completed a first draft of the student scheduling function, although it is currently still a work in progress.
+
+2/1/24 (Continued): <br>
+Later the day of class, I came back to the program and completed a relatively solid implementation of the student placement logic. I will continue to look for optimizations in the future, but this is a very good start, and my average choices per student currently sits at 3.956.

@@ -153,10 +153,11 @@ public class Seminar {
     public int arrCountContains(Course[] arr, int[] arr2) {
         int counter = 0;
         for (Course element : arr) {
-            for (int element2 : arr2)
+            for (int element2 : arr2) {
                 if (element.getCourseID() == element2) {
                     counter ++;
                 }
+            }
         }
         return counter;
     }

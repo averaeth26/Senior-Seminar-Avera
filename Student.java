@@ -75,7 +75,6 @@ public class Student {
                     }
                 }
             }
-            return;
         }
         for (int i = 0; i < courseCalendar.length; i++) {
             for (int j = 0; j < courseCalendar[0].length; j++) {
