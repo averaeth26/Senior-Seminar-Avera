@@ -31,8 +31,9 @@ public class Tester {
             }
             System.out.println(counter);
         }
+        d1.placeStudents(courseCalendar, students);
         for (Student student : students) {
-            student.calculateSlot(courseCalendar, courses);
+            // student.calculateSlot(courseCalendar, courses);
             System.out.println(student.getName() + ": " + d1.arrCountContains(student.getChoices(), student.getChoiceIDs()));
         }
     }

@@ -210,6 +210,13 @@ public class Seminar {
         return currentGrid;
     }
 
+    public void placeStudents(Course[][] courseCalendar, ArrayList<Student> students) {
+        for (int choiceNum = 0; choiceNum < 5; choiceNum++) {
+            for (int i = 0; i < students.size(); i++) {
+                    students.get(i).calculateSlot(courseCalendar, choiceNum);
+            }
+        }
+    }
     /*
     Possible rework to this function:
     - Put all of the courses in in their default order and calculate a "sum" of conflicts.
