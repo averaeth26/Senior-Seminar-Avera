@@ -3,7 +3,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class Seminar {
     ArrayList<String> personData = new ArrayList<String>();
@@ -82,31 +81,29 @@ public class Seminar {
      * This roster stores the number of times a section of each course will be held
      */
     public ArrayList<Course> generateCourseRoster(ArrayList<Course> courses, ArrayList<Student> students) {
-        ArrayList<Integer> interestLevels = new ArrayList<Integer>();
         ArrayList<Course> courseSlots = new ArrayList<Course>();
         for (int courseNum = 0; courseNum < courses.size(); courseNum++) {
-            System.out.println(courses.get(courseNum));
-            interestLevels.add(countCourse(students, courses.get(courseNum).getCourseID()));
             courses.get(courseNum).setInterestLevel(countCourse(students, courses.get(courseNum).getCourseID()));
         }
-        System.out.println(interestLevels);
         for (int i = 0; i < courses.size(); i++) {
-            courseSlots.add(courses.get(i));
+            courseSlots.add(new Course(courses.get(i).getCourseName() + "," + courses.get(i).getCourseID() + "," + courses.get(i).getInstructorName()));
             if (courses.get(i).getInterestLevel() > courses.get(i).getMaxCapacity()) {
-                courseSlots.add(courses.get(i));
+                courseSlots.add(new Course(courses.get(i).getCourseName() + "," + courses.get(i).getCourseID() + "," + courses.get(i).getInstructorName()));
             }
+        }
+        for (int courseNum = 0; courseNum < courseSlots.size(); courseNum++) {
+            courseSlots.get(courseNum).setInterestLevel(countCourse(students, courseSlots.get(courseNum).getCourseID()));
         }
         return courseSlots;
     }
 
-    public int arrCount(int[] arr, int testVal) {
-        int counter = 0;
+    public boolean arrContains(int[] arr, int testVal) {
         for (int value : arr) {
             if (value == testVal) {
-                counter ++;
+                return true;
             }
         }
-        return counter;
+        return false;
     }
 
     public int countDuplicateInstructors(Course[] arr) {
@@ -132,7 +129,7 @@ public class Seminar {
             }
             int currentConflicts = 0;
             for (Student student : students) {
-                if (arrCount(student.getChoiceIDs(), course.getCourseID()) > 0 && arrCount(student.getChoiceIDs(), courses.get(i).getCourseID()) > 0) {
+                if (arrContains(student.getChoiceIDs(), course.getCourseID()) && arrContains(student.getChoiceIDs(), courses.get(i).getCourseID())) {
                     currentConflicts ++;
                 }
             }
@@ -179,7 +176,7 @@ public class Seminar {
         }
         return score;
     }
-
+    
     public Course[][] swapValues (Course[][] courseGrid, int index1r, int index1c, int index2r, int index2c) {
         Course temp = courseGrid[index1r][index1c];
         courseGrid[index1r][index1c] = courseGrid[index2r][index2c];

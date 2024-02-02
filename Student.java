@@ -36,43 +36,64 @@ public class Student {
     }
 
     public boolean arrContains(Course[] arr, int testVal) {
-        for (Course element : arr) {
-            if (element != null && element.getCourseID() == testVal) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != null && arr[i].getCourseID() == testVal) {
                 return true;
             }
         }
         return false;
     }
+
+    public Course[] sortByInterest(Course[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i; j < arr.length; j++) {
+                if (arr[j].getInterestLevel() < arr[i].getInterestLevel()) {
+                    Course temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+        return arr;
+    }
 // Notes for self:
 // Generate "Hopeful" roster for each student, then, swap out any students over the maximum,
 // prioritizing swapping those who had a "conflict" that block as they will still get one of their choices
-    public void calculateGuaranteedSlots(Course[][] courseCalendar, ArrayList<Course> courses) {
+    public void calculateSlot(Course[][] courseCalendar, ArrayList<Course> courses) {
         for (int i = 0; i < courseCalendar.length; i++) {
-
-            if (arrCountContains(courseCalendar[i], choiceIDs) > 1) {
+            courseCalendar[i] = sortByInterest(courseCalendar[i]);
+            if (arrCountContains(courseCalendar[i], choiceIDs) > 1 || arrCountContains(courseCalendar[i], choiceIDs) < 1) {
                 continue;
             }
             for (int id : choiceIDs) {
-                if (arrContains(courseCalendar[i], id) && !arrContains(choices, id)) {
+                if (arrContains(courseCalendar[i], id) && !arrContains(choices, id) && courses.get(id-1).getAttendance() < courses.get(id-1).getMaxCapacity()) {
                     choices[i] = courses.get(id-1);
                 }
             }
         }
 
-        // for (Course val : choices) {
-        //     System.out.println(val);
-        // }
-
         for (int i = 0; i < courseCalendar.length; i++) {
+            // System.out.println(arrCountContains(courseCalendar[i], choiceIDs));
             if (arrCountContains(courseCalendar[i], choiceIDs) > 1) {
-                int minIntrest = 0;
                 for (int id : choiceIDs) {
-                    if (arrContains(courseCalendar[i], id) && courses.get(id-1).getInterestLevel() < courses.get(minIntrest).getInterestLevel() && !arrContains(choices, id)) {
-                        minIntrest = id-1;
+                    if (arrContains(courseCalendar[i], id) && !arrContains(choices, id) && courses.get(id-1).getAttendance() < courses.get(id-1).getMaxCapacity()) {
+                        choices[i] = courses.get(id-1);
+                        continue;
                     }
                 }
-                choices[i] = courses.get(minIntrest);
             }
+            if (choices[i] == null) {
+                // if (courseCalendar[i][0].getAttendance() < courseCalendar[i][0].getMaxCapacity()) {
+                //     choices[i] = courseCalendar[i][0];
+                for (int j = 0; j < 5; j++) {
+
+                    if (courseCalendar[i][j].getAttendance() < courseCalendar[i][j].getMaxCapacity()) {
+                        choices[i] = courseCalendar[i][j];
+                        break;
+                    } 
+                }
+            }
+            choices[i].addAttendee();
         }
     }
 

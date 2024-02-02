@@ -7,6 +7,7 @@ public class Course {
     int numSessions;
     int interestLevel;
     int maxCapacity = 16;
+    int currentAttendance = 0;
     Student[] currentlyEnrolled = new Student[16];
 
     public Course(String courseInfo) {
@@ -49,7 +50,15 @@ public class Course {
         return interestLevel;
     }
 
+    public void addAttendee() {
+        currentAttendance++;
+    }
 
-    
+    public int getAttendance() {
+        return currentAttendance;
+    }
 
+    public String getCourseName() {
+        return courseName;
+    }
 }

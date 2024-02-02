@@ -14,26 +14,26 @@ public class Tester {
         d1.importData();
         ArrayList<Student> students = d1.populateStudents();
         ArrayList<Course> courses = d1.populateCourses();
-        for (Student student : students) {
-            System.out.println(student);
-        }
-        for (Course course : courses) {
-            System.out.println(d1.calculateCourseConflicts(course, courses, students));
-        }
+        // for (Student student : students) {
+        //     System.out.println(student);
+        // }
+        // for (Course course : courses) {
+        //     System.out.println(d1.calculateCourseConflicts(course, courses, students));
+        // }
         ArrayList<Course> courseRoster = d1.generateCourseRoster(courses, students);
         Course[][] courseCalendar = d1.calculateScheduleBlocks(courseRoster, students);
         for (int row = 0; row < courseCalendar.length; row ++) {
+            int counter = 0;
             System.out.println("");
             for (int col = 0; col < courseCalendar[0].length; col ++) {
                 System.out.println(courseCalendar[row][col]);
+                counter += courseCalendar[row][col].getInterestLevel();
             }
+            System.out.println(counter);
         }
         for (Student student : students) {
-            student.calculateGuaranteedSlots(courseCalendar, courses);
-        }
-        System.out.println(students.get(2).getName());
-        for (Course val : students.get(2).getChoices()) {
-            System.out.println(val);
+            student.calculateSlot(courseCalendar, courses);
+            System.out.println(student.getName() + ": " + d1.arrCountContains(student.getChoices(), student.getChoiceIDs()));
         }
     }
 }         
