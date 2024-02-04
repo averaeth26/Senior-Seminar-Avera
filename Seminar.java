@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Seminar {
     ArrayList<String> personData = new ArrayList<String>();
@@ -63,7 +64,7 @@ public class Seminar {
         return currentCourses;
     }
 
-    public int countCourse(ArrayList<Student> students, int testID) {
+    public int countCourseInterest(ArrayList<Student> students, int testID) {
         int count = 0;
         for (Student student : students) {
             for (int choiceID : student.getChoiceIDs()) {
@@ -83,7 +84,7 @@ public class Seminar {
     public ArrayList<Course> generateCourseRoster(ArrayList<Course> courses, ArrayList<Student> students) {
         ArrayList<Course> courseSlots = new ArrayList<Course>();
         for (int courseNum = 0; courseNum < courses.size(); courseNum++) {
-            courses.get(courseNum).setInterestLevel(countCourse(students, courses.get(courseNum).getCourseID()));
+            courses.get(courseNum).setInterestLevel(countCourseInterest(students, courses.get(courseNum).getCourseID()));
         }
         for (int i = 0; i < courses.size(); i++) {
             courseSlots.add(new Course(courses.get(i).getCourseName() + "," + courses.get(i).getCourseID() + "," + courses.get(i).getInstructorName()));
@@ -92,63 +93,64 @@ public class Seminar {
             }
         }
         for (int courseNum = 0; courseNum < courseSlots.size(); courseNum++) {
-            courseSlots.get(courseNum).setInterestLevel(countCourse(students, courseSlots.get(courseNum).getCourseID()));
+            courseSlots.get(courseNum).setInterestLevel(countCourseInterest(students, courseSlots.get(courseNum).getCourseID()));
         }
         return courseSlots;
     }
 
-    public boolean arrContains(int[] arr, int testVal) {
-        for (int value : arr) {
-            if (value == testVal) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // public boolean arrContains(int[] arr, int testVal) {
+    //     for (int value : arr) {
+    //         if (value == testVal) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     public int countDuplicateInstructors(Course[] arr) {
-        int counter = 0;
+        int total = 0;
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
-                if (arr[i].getInstructorName() == arr[j].getInstructorName() && j > i) {
-                    counter ++;
+            for (int j = i+1; j < arr.length; j++) {
+                // System.out.println(arr[i].getInstructorName() + arr[j].getInstructorName());
+                if (arr[i].getInstructorName().equals(arr[j].getInstructorName())) {
+                    total ++;
                 }
             }
         }
-        return counter;
+        return total;
     }
 
 
-    public ArrayList<Integer> calculateCourseConflicts(Course course, ArrayList<Course> courses, ArrayList<Student> students) {
-        ArrayList<Integer> numConflicts = new ArrayList<Integer>();
-        for (int i = 0; i < courses.size(); i++) {
-            if (course.getInstructorName().equals(courses.get(i).getInstructorName())) {
-                numConflicts.add(students.size()); // If two courses are taught by the same person, they aren't compatible
-                continue;
+    // public ArrayList<Integer> calculateCourseConflicts(Course course, ArrayList<Course> courses, ArrayList<Student> students) {
+    //     ArrayList<Integer> numConflicts = new ArrayList<Integer>();
+    //     for (int i = 0; i < courses.size(); i++) {
+    //         if (course.getInstructorName().equals(courses.get(i).getInstructorName())) {
+    //             numConflicts.add(students.size()); // If two courses are taught by the same person, they aren't compatible
+    //             continue;
 
-            }
-            int currentConflicts = 0;
-            for (Student student : students) {
-                if (arrContains(student.getChoiceIDs(), course.getCourseID()) && arrContains(student.getChoiceIDs(), courses.get(i).getCourseID())) {
-                    currentConflicts ++;
-                }
-            }
-            numConflicts.add(currentConflicts);
-        }
-        return numConflicts;
-    }
+    //         }
+    //         int currentConflicts = 0;
+    //         for (Student student : students) {
+    //             if (arrContains(student.getChoiceIDs(), course.getCourseID()) && arrContains(student.getChoiceIDs(), courses.get(i).getCourseID())) {
+    //                 currentConflicts ++;
+    //             }
+    //         }
+    //         numConflicts.add(currentConflicts);
+    //     }
+    //     return numConflicts;
+    // }
 
-    public int findMinIndex(ArrayList<Integer> arr) {
-        int minIndex = 0;
-        int min = arr.get(0);
-        for (int j = 0; j < arr.size(); j++) {
-            if (arr.get(j) < min) {
-                minIndex = j;
-                min = arr.get(j);
-            }
-        }
-        return minIndex;
-    }
+    // public int findMinIndex(ArrayList<Integer> arr) {
+    //     int minIndex = 0;
+    //     int min = arr.get(0);
+    //     for (int j = 0; j < arr.size(); j++) {
+    //         if (arr.get(j) < min) {
+    //             minIndex = j;
+    //             min = arr.get(j);
+    //         }
+    //     }
+    //     return minIndex;
+    // }
 
     public int arrCountContains(Course[] arr, int[] arr2) {
         int counter = 0;
@@ -162,43 +164,73 @@ public class Seminar {
         return counter;
     }
 
-    public int calculateCheckSum(Course[][] courseGrid, ArrayList<Student> students) {
-        int score = 0;
-        for (Student student : students) {
-            for (int row = 0; row < courseGrid.length; row++) {
-                if (arrCountContains(courseGrid[row], student.getChoiceIDs()) == 0) {
-                    score ++;
-                }
-            }
-        }
-        for (int row = 0; row < courseGrid.length; row++) {
-            // System.out.println(countDuplicateInstructors(courseGrid[row]));
-            score += (students.size() * countDuplicateInstructors(courseGrid[row]));
-        }
-        return score;
-    }
+    // public int calculateCheckSum(Course[][] courseGrid, ArrayList<Student> students) {
+    //     int score = 0;
+    //     double rowAverage = 116.6;
+    //     // System.out.println(rowAverage);
+    //     double currentRowTotal; 
+    //     for (int row = 0; row < courseGrid.length; row++) {
+    //         currentRowTotal = 0;
+    //         // System.out.println();
+    //         for (int col = 0; col < courseGrid.length; col++) {
+    //             // System.out.println(courseGrid[row][col]);
+    //             currentRowTotal += courseGrid[row][col].getInterestLevel();
+    //         }
+    //         System.out.println(Math.abs(rowAverage - currentRowTotal));
+    //         score += Math.abs(rowAverage - currentRowTotal);
+    //     }
+
+    //     // for (int x = 0; x < courseGrid.length; x++) {
+    //     //             score += (students.size() * countDuplicateInstructors(courseGrid[x]));
+    //     // }
+    //     return score;
+    // }
+    // public int calculateCheckSum(Course[][] courseGrid, ArrayList<Student> students) {
+    //     int score = 0;
+    //     for (Student student : students) {
+    //         for (int row = 0; row < courseGrid.length; row++) {
+    //             if (arrCountContains(courseGrid[row], student.getChoiceIDs()) == 0) {
+    //                 score ++;
+    //             }
+    //         }
+    //     }
+    //     // for (int row = 0; row < courseGrid.length; row++) {
+    //     //     // System.out.println(countDuplicateInstructors(courseGrid[row]));
+    //     //     score += (students.size() * countDuplicateInstructors(courseGrid[row]));
+    //     // }
+    //     return score;
+    // }
     
     public Course[][] swapValues (Course[][] courseGrid, int index1r, int index1c, int index2r, int index2c) {
-        Course temp = courseGrid[index1r][index1c];
-        courseGrid[index1r][index1c] = courseGrid[index2r][index2c];
-        courseGrid[index2r][index2c] = temp;
-        return courseGrid;
+        Course[][] tempGrid = new Course[courseGrid.length][courseGrid[0].length];
+        Course curr;
+        for (int i = 0; i < courseGrid.length; i++) {
+            for (int j = 0; j < courseGrid[0].length; j++) {
+                curr = courseGrid[i][j];
+                tempGrid[i][j] = new Course(curr.getCourseName() + "," + curr.getCourseID() + "," + curr.getInstructorName());
+            }
+        }
+        Course temp = tempGrid[index1r][index1c];
+        tempGrid[index1r][index1c] = tempGrid[index2r][index2c];
+        tempGrid[index2r][index2c] = temp;
+        return tempGrid;
     }
 
-    public Course[][] calculateScheduleBlocks(ArrayList<Course> courseRoster, ArrayList<Student> students) {
+    // Reminder: Add LateData
+    public Course[][] calculateScheduleBlocks(ArrayList<Course> courseList, ArrayList<Student> students) {
         Course[][] currentGrid = new Course[5][5];
         Course[][] nextGrid = new Course[5][5];
-        for (int i = 0; i < courseRoster.size(); i++) {
-            currentGrid[i/5][i%5] = courseRoster.get(i);
+        for (int i = 0; i < courseList.size(); i++) {
+            currentGrid[i/5][i%5] = courseList.get(i);
         }
-        int checkSum = calculateCheckSum(currentGrid, students);
+        int checkSum = placeStudents(currentGrid, students);
         int nextSum;
-        for (int x = 0; x < courseRoster.size(); x++) {
-            for (int i = 0; i < courseRoster.size(); i++) {
-                for (int j = 0; j < courseRoster.size(); j++) {
+        for (int attempt = 0; attempt < courseList.size(); attempt++) {
+            for (int i = 0; i < courseList.size(); i++) {
+                for (int j = 0; j < courseList.size(); j++) {
                     nextGrid = swapValues(currentGrid, i/5, i%5, j/5, j%5);
-                    nextSum = calculateCheckSum(nextGrid, students);
-                    if (nextSum < checkSum) {
+                    nextSum = placeStudents(nextGrid, students);
+                    if (nextSum > checkSum) {
                         System.out.println(checkSum + "->" + nextSum);
                         currentGrid = nextGrid;
                         checkSum = nextSum;
@@ -211,13 +243,51 @@ public class Seminar {
         return currentGrid;
     }
 
-    public void placeStudents(Course[][] courseCalendar, ArrayList<Student> students) {
-        for (int choiceNum = 0; choiceNum < 5; choiceNum++) {
-            for (int i = 0; i < students.size(); i++) {
-                    students.get(i).calculateSlot(courseCalendar, choiceNum);
+    public Course[] sortByInterest(Course[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i; j < arr.length; j++) {
+                if (arr[j].getInterestLevel() > arr[i].getInterestLevel()) {
+                    Course temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
             }
         }
+        return arr;
     }
+
+    public int placeStudents(Course[][] courseCalendar, ArrayList<Student> students) {
+        for (int row = 0; row < courseCalendar.length; row++) {
+            sortByInterest(courseCalendar[row]);
+            for (int col = 0; col < courseCalendar[0].length; col++) {
+                courseCalendar[row][col].resetAttendance();
+            }
+        }
+        for (Student student : students) {
+            student.resetChoices();
+        }
+        int score = 0;
+        for (int choiceNum = 0; choiceNum < 5; choiceNum++) {
+            for (int i = 0; i < students.size(); i++) {
+                students.get(i).calculateSlot(courseCalendar, choiceNum);
+            }
+        }
+
+        for (Student student : students) {
+            // student.calculateSlot(courseCalendar, courses);
+            score += arrCountContains(student.getChoices(), student.getChoiceIDs());
+        }
+        for (int row = 0; row < courseCalendar.length; row++) {
+            // System.out.println(countDuplicateInstructors(courseGrid[row]));
+            score -= (students.size() * countDuplicateInstructors(courseCalendar[row]));
+        }
+        return score;
+    }
+
+        // for (int row = 0; row < courseCalendar.length; row++) {
+        //     // System.out.println(countDuplicateInstructors(courseGrid[row]));
+        //     score -= (students.size() * countDuplicateInstructors(courseCalendar[row]));
+        // }
     /*
     Possible rework to this function:
     - Put all of the courses in in their default order and calculate a "sum" of conflicts.

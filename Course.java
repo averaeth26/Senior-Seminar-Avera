@@ -55,7 +55,11 @@ public class Course {
     }
 
     public int getAttendance() {
-        return currentAttendance;
+        return currentAttendance; 
+    }
+
+    public void resetAttendance() {
+        currentAttendance = 0;
     }
 
     public String getCourseName() {

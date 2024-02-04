@@ -44,18 +44,6 @@ public class Student {
         return false;
     }
 
-    public Course[] sortByInterest(Course[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = i; j < arr.length; j++) {
-                if (arr[j].getInterestLevel() < arr[i].getInterestLevel()) {
-                    Course temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-                }
-            }
-        }
-        return arr;
-    }
 // Notes for self:
 // Generate "Hopeful" roster for each student, then, swap out any students over the maximum,
 // prioritizing swapping those who had a "conflict" that block as they will still get one of their choices
@@ -63,7 +51,6 @@ public class Student {
     public void calculateSlot(Course[][] courseCalendar, int choiceNum) {
         if (choiceNum > 4) {
             for (int i = 0; i < courseCalendar.length; i++) {
-                courseCalendar[i] = sortByInterest(courseCalendar[i]);
                 if (choices[i] != null) {
                     continue;
                 }
@@ -135,5 +122,9 @@ public class Student {
 
     public String getName() {
         return name;
+    }
+
+    public void resetChoices() {
+        choices = new Course[5];
     }
 }
