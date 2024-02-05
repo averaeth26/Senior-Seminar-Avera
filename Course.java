@@ -5,10 +5,11 @@ public class Course {
     int courseID;
     String instructorName;
     int numSessions;
+    int roomNumber;
     int interestLevel;
     int maxCapacity = 16;
     int currentAttendance = 0;
-    Student[] currentlyEnrolled = new Student[16];
+    ArrayList<String> currentlyEnrolled = new ArrayList<String>();
 
     public Course(String courseInfo) {
         String[] separatedData = courseInfo.split(",");
@@ -18,14 +19,18 @@ public class Course {
     }
 
     public String toString() {
-        return courseName + " (ID: " + courseID + ") is taught by " + instructorName;
+        String build = courseName + " (ID: " + courseID + ") is taught by " + instructorName + " in Room " + roomNumber + " and is attended by:\n";
+        for (String studentName : currentlyEnrolled) {
+            build += " - " + studentName + "\n";
+        }
+        return build;
     }
 
     public int getCourseID() {
         return courseID;
     }
 
-    public void addNumSessions() {
+    public void addSession() {
         numSessions++;
     }
 
@@ -42,6 +47,10 @@ public class Course {
         return instructorName;
     }
 
+    public int getRoomNumber() {
+        return roomNumber;
+    }
+
     public void setInterestLevel(int level) {
         interestLevel = level;
     }
@@ -50,7 +59,8 @@ public class Course {
         return interestLevel;
     }
 
-    public void addAttendee() {
+    public void addAttendee(String attendeeName) {
+        currentlyEnrolled.add(attendeeName);
         currentAttendance++;
     }
 
@@ -64,5 +74,9 @@ public class Course {
 
     public String getCourseName() {
         return courseName;
+    }
+
+    public void setRoomNumber(int number) {
+        roomNumber = number;
     }
 }

@@ -11,34 +11,25 @@ public class Tester {
     */
     public static void main(String[] args) {
         Seminar d1 = new Seminar();
+        System.out.println("\033[H\033[2J");
         d1.importData();
         ArrayList<Student> students = d1.populateStudents();
-        ArrayList<Course> courses = d1.populateCourses();
-        // for (Student student : students) {
-        //     System.out.println(student);
-        // }
-        // for (Course course : courses) {
-        //     System.out.println(d1.calculateCourseConflicts(course, courses, students));
-        // }
-        ArrayList<Course> courseRoster = d1.generateCourseRoster(courses, students);
-        Course[][] courseCalendar = d1.calculateScheduleBlocks(courseRoster, students);
-        for (int row = 0; row < courseCalendar.length; row ++) {
-            int counter = 0;
-            System.out.println("");
-            for (int col = 0; col < courseCalendar[0].length; col ++) {
-                System.out.println(courseCalendar[row][col]);
-                counter += courseCalendar[row][col].getInterestLevel();
-            }
-            System.out.println(counter);
-        }
-        d1.placeStudents(courseCalendar, students);
-        double average = 0;
+        ArrayList<Student> lateStudents = d1.populateLateStudents();
+        ArrayList<Student> allStudents = new ArrayList<Student>();
         for (Student student : students) {
-            // student.calculateSlot(courseCalendar, courses);
-            System.out.println(student.getName() + ": " + d1.arrCountContains(student.getChoices(), student.getChoiceIDs()));
-            average += d1.arrCountContains(student.getChoices(), student.getChoiceIDs());
+            allStudents.add(student);
         }
-        average /= students.size();
-        System.out.println(average);
+        for (Student student : lateStudents) {
+            allStudents.add(student);
+        }
+        ArrayList<Course> courses = d1.populateCourses();
+        Room[] rooms = new Room[5];
+        ArrayList<Course> courseRoster = d1.generateCourseRoster(courses, students);
+        Course[][] courseCalendar = d1.calculateScheduleBlocks(courseRoster, students, courses, rooms);
+        d1.placeLateStudents(courseCalendar, lateStudents, courses);
+        d1.printCourseCalendar(courseCalendar);
+        d1.printStudentRoster(allStudents);
+        d1.printCourseRoster(courseCalendar);
+        d1.printRoomRoster(rooms);
     }
 }         

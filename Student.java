@@ -17,9 +17,13 @@ public class Student {
     }
 
     public String toString() {
-        String build = name + " can be reached at " + email + " and is taking: ";
+        String build = name;
+        if (email.length() > 0) {
+            build += " can be reached at " + email + " and";
+        }
+        build += " is taking:\n";
         for (Course course : choices) {
-            // To be implemented...
+            build += " - " + course.getCourseName() + "\n";
         }
         return build;
     }
@@ -44,35 +48,85 @@ public class Student {
         return false;
     }
 
+    public int findMinIndex(ArrayList<Integer> arr) {
+        int minIndex = 0;
+        int min = arr.get(0);
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr.get(i) < min) {
+                minIndex = i;
+                min = arr.get(i);
+            }
+        }
+        return minIndex;
+    }
+
 // Notes for self:
 // Generate "Hopeful" roster for each student, then, swap out any students over the maximum,
 // prioritizing swapping those who had a "conflict" that block as they will still get one of their choices
 
-    public void calculateSlot(Course[][] courseCalendar, int choiceNum) {
+    public void calculateSlot(Course[][] courseCalendar, int choiceNum, ArrayList<Course> courses) {
         if (choiceNum > 4) {
             for (int i = 0; i < courseCalendar.length; i++) {
                 if (choices[i] != null) {
                     continue;
                 }
                 for (int j = 0; j < courseCalendar[0].length; j++) {
-                    if (courseCalendar[i][j].getAttendance() < courseCalendar[i][j].getMaxCapacity()) {
+                    // System.out.println(courseCalendar[i][j].getAttendance());
+                    if (!arrContains(choices, courseCalendar[i][j].getCourseID()) && courseCalendar[i][j].getAttendance() < courseCalendar[i][j].getMaxCapacity()) {
                         choices[i] = courseCalendar[i][j];
-                        choices[i].addAttendee();
+                        choices[i].addAttendee(name);
                         return;
                     }
                 }
             }
         }
+        if (choiceNum > 4) {
+            return;
+        }
+
+        int prevChoiceIndex = -1;
+        int prevChoiceConflicts = -1;
         for (int i = 0; i < courseCalendar.length; i++) {
-            for (int j = 0; j < courseCalendar[0].length; j++) {
-                if (courseCalendar[i][j].getCourseID() == choiceIDs[choiceNum] && choices[i] == null && courseCalendar[i][j].getAttendance() < courseCalendar[i][j].getMaxCapacity()) {
-                    choices[i] = courseCalendar[i][j];
-                    choices[i].addAttendee();
-                    return;
+            // System.out.println(courses.get(choiceIDs[choiceNum]-1).getNumSessions());
+            if (choiceIDs[choiceNum] > 0 && courses.get(choiceIDs[choiceNum]-1).getNumSessions() == 1) {
+                for (int j = 0; j < courseCalendar[0].length; j++) {
+                    if (courseCalendar[i][j].getCourseID() == choiceIDs[choiceNum] && choices[i] == null && courseCalendar[i][j].getAttendance() < courseCalendar[i][j].getMaxCapacity()) {
+                        choices[i] = courseCalendar[i][j];
+                        choices[i].addAttendee(name);
+                        return;
+                    }
+                }
+            }
+            else {
+                if (arrContains(courseCalendar[i], choiceIDs[choiceNum])) {
+                    if (prevChoiceIndex < 0) {
+                        prevChoiceIndex = i;
+                        prevChoiceConflicts = arrCountContains(courseCalendar[i], choiceIDs);
+                    }
+                    else {
+                        if (arrCountContains(courseCalendar[i], choiceIDs) <= prevChoiceConflicts) {
+                            for (int j = 0; j < courseCalendar[0].length; j++) {
+                                if (courseCalendar[i][j].getCourseID() == choiceIDs[choiceNum] && choices[i] == null && courseCalendar[i][j].getAttendance() < courseCalendar[i][j].getMaxCapacity()) {
+                                    choices[i] = courseCalendar[i][j];
+                                    choices[i].addAttendee(name);
+                                    return;
+                                }
+                            }
+                        }
+                        else {
+                            for (int j = 0; j < courseCalendar[0].length; j++) {
+                                if (courseCalendar[prevChoiceIndex][j].getCourseID() == choiceIDs[choiceNum]  && choices[prevChoiceIndex] == null && courseCalendar[prevChoiceIndex][j].getAttendance() < courseCalendar[prevChoiceIndex][j].getMaxCapacity()) {
+                                    choices[prevChoiceIndex] = courseCalendar[prevChoiceIndex][j];
+                                    choices[prevChoiceIndex].addAttendee(name);
+                                    return;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-        calculateSlot(courseCalendar, choiceNum+1);
+        calculateSlot(courseCalendar, choiceNum+1, courses);
     }
     // public void calculateSlot(Course[][] courseCalendar, ArrayList<Course> courses) {
     //     for (int i = 0; i < courseCalendar.length; i++) {

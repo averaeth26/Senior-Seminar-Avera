@@ -26,3 +26,14 @@ Today, I finished the course scheduling algorithm, and I also completed a first 
 
 2/1/24 (Continued): <br>
 After class today, I came back to the program and completed a relatively solid implementation of the student placement logic. I will continue to look for optimizations in the future, but this is a very good start, and my average choices per student currently sits at 3.956.
+
+2/2/24: <br>
+Today, I worked on combining the student placement logic and the course placement logic into one system so the courses could be more accurately optimized based on the needs of the students, although I had some trouble getting the system to work and haven't made much progress yet.
+
+2/3/24: <br>
+Most of today was also spent fixing the bugs that plagued my program yesterday, but, after hours of testing, I was finally able to get my program working. Additionally, after some more optimization, my average choices per student is now up to 4.353.
+
+2/4/24: <br>
+More bug fixes and formatting to be printed. Unfortunately, these bugs lowered my average slightly, and it now sits between 4.23 and 4.3 (although it is slightly random now due to computational limits).
+
+
