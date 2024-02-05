@@ -4,12 +4,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
+/**
+Seminar.java
+@author Ethan Avera
+@since 1/16/24
+This class handles all of the overarching scheduling/formatting logic to make the program run
+This includes calculating the optimal schedule, putting students onto that schedule, and printing the different rosters
+*/
 public class Seminar {
     ArrayList<String> personData = new ArrayList<String>();
     ArrayList<String> lateData = new ArrayList<String>();
     ArrayList<String> courseData = new ArrayList<String>();
     Scanner scan = new Scanner(System.in);
 
+    /*
+    This method reads the imput files and extracts the necessary data from them
+    This method has no return value
+    */
     public void importData() {
         try {
             File myObj = new File("SeniorSeminar_PersonData.csv");
@@ -46,6 +57,10 @@ public class Seminar {
         courseData.remove(0);
     }
 
+    /*
+    This method fills a list of students based on the data loaded above
+    This method then returns that list
+    */
     public ArrayList<Student> populateStudents() {
         ArrayList<Student> currentStudents = new ArrayList<Student>();
 
@@ -55,6 +70,10 @@ public class Seminar {
         return currentStudents;
     }
 
+    /*
+    This method fills a list of students who did not fill out the form on time based on the data loaded above
+    This method then returns that list
+    */
     public ArrayList<Student> populateLateStudents() {
         ArrayList<Student> lateStudents = new ArrayList<Student>();
 
@@ -64,6 +83,10 @@ public class Seminar {
         return lateStudents;
     }
 
+    /*
+    This method fills a list of courses based on the data loaded above
+    This method then returns that list
+    */
     public ArrayList<Course> populateCourses() {
         ArrayList<Course> currentCourses = new ArrayList<Course>();
 
@@ -73,6 +96,10 @@ public class Seminar {
         return currentCourses;
     }
 
+    /*
+    This method counts the number of students who have chosen a given course
+    This method then returns that number
+    */
     public int countCourseInterest(ArrayList<Student> students, int testID) {
         int count = 0;
         for (Student student : students) {
@@ -86,10 +113,11 @@ public class Seminar {
         return count;
     }
 
-    /* Generates a list of course sections based on interest for each course
-     * Returns an ArrayList of courses representing the course roster 
-     * This roster stores the number of times a section of each course will be held
-     */
+    /*
+    Generates a list of course sections based on interest for each course
+    Returns an ArrayList of courses representing the course roster 
+    This roster stores the number of times a section of each course will be held
+    */
     public ArrayList<Course> generateCourseRoster(ArrayList<Course> courses, ArrayList<Student> students) {
         ArrayList<Course> courseSlots = new ArrayList<Course>();
         for (int courseNum = 0; courseNum < courses.size(); courseNum++) {
@@ -109,15 +137,11 @@ public class Seminar {
         return courseSlots;
     }
 
-    // public boolean arrContains(int[] arr, int testVal) {
-    //     for (int value : arr) {
-    //         if (value == testVal) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-
+    /*
+    This method is a helper method for the placeStudents() method below
+    This method counts the number of times that an instructor is teaching multiple classes at once
+    This method then returns that number
+    */
     public int countDuplicateInstructors(Course[] arr) {
         int total = 0;
         for (int i = 0; i < arr.length; i++) {
@@ -131,38 +155,10 @@ public class Seminar {
         return total;
     }
 
-
-    // public ArrayList<Integer> calculateCourseConflicts(Course course, ArrayList<Course> courses, ArrayList<Student> students) {
-    //     ArrayList<Integer> numConflicts = new ArrayList<Integer>();
-    //     for (int i = 0; i < courses.size(); i++) {
-    //         if (course.getInstructorName().equals(courses.get(i).getInstructorName())) {
-    //             numConflicts.add(students.size()); // If two courses are taught by the same person, they aren't compatible
-    //             continue;
-
-    //         }
-    //         int currentConflicts = 0;
-    //         for (Student student : students) {
-    //             if (arrContains(student.getChoiceIDs(), course.getCourseID()) && arrContains(student.getChoiceIDs(), courses.get(i).getCourseID())) {
-    //                 currentConflicts ++;
-    //             }
-    //         }
-    //         numConflicts.add(currentConflicts);
-    //     }
-    //     return numConflicts;
-    // }
-
-    // public int findMinIndex(ArrayList<Integer> arr) {
-    //     int minIndex = 0;
-    //     int min = arr.get(0);
-    //     for (int j = 0; j < arr.size(); j++) {
-    //         if (arr.get(j) < min) {
-    //             minIndex = j;
-    //             min = arr.get(j);
-    //         }
-    //     }
-    //     return minIndex;
-    // }
-
+    /*
+    This method counts the number of occurrences of the values of one array in another array
+    This method then returns that number
+    */
     public int arrCountContains(Course[] arr, int[] arr2) {
         int counter = 0;
         for (Course element : arr) {
@@ -175,43 +171,10 @@ public class Seminar {
         return counter;
     }
 
-    // public int calculateCheckSum(Course[][] courseGrid, ArrayList<Student> students) {
-    //     int score = 0;
-    //     double rowAverage = 116.6;
-    //     // System.out.println(rowAverage);
-    //     double currentRowTotal; 
-    //     for (int row = 0; row < courseGrid.length; row++) {
-    //         currentRowTotal = 0;
-    //         // System.out.println();
-    //         for (int col = 0; col < courseGrid.length; col++) {
-    //             // System.out.println(courseGrid[row][col]);
-    //             currentRowTotal += courseGrid[row][col].getInterestLevel();
-    //         }
-    //         System.out.println(Math.abs(rowAverage - currentRowTotal));
-    //         score += Math.abs(rowAverage - currentRowTotal);
-    //     }
-
-    //     // for (int x = 0; x < courseGrid.length; x++) {
-    //     //             score += (students.size() * countDuplicateInstructors(courseGrid[x]));
-    //     // }
-    //     return score;
-    // }
-    // public int calculateCheckSum(Course[][] courseGrid, ArrayList<Student> students) {
-    //     int score = 0;
-    //     for (Student student : students) {
-    //         for (int row = 0; row < courseGrid.length; row++) {
-    //             if (arrCountContains(courseGrid[row], student.getChoiceIDs()) == 0) {
-    //                 score ++;
-    //             }
-    //         }
-    //     }
-    //     // for (int row = 0; row < courseGrid.length; row++) {
-    //     //     // System.out.println(countDuplicateInstructors(courseGrid[row]));
-    //     //     score += (students.size() * countDuplicateInstructors(courseGrid[row]));
-    //     // }
-    //     return score;
-    // }
-    
+    /*
+    This is a helper method for the calculateScheduleBlocks() method below
+    This method swaps two values within a 2d course array and returns the modified 2d array
+    */
     public Course[][] swapValues (Course[][] courseGrid, int index1r, int index1c, int index2r, int index2c) {
         Course[][] tempGrid = new Course[courseGrid.length][courseGrid[0].length];
         Course curr;
@@ -220,6 +183,8 @@ public class Seminar {
                 curr = courseGrid[i][j];
                 tempGrid[i][j] = new Course(curr.getCourseName() + "," + curr.getCourseID() + "," + curr.getInstructorName());
                 tempGrid[i][j].setInterestLevel(curr.getInterestLevel());
+                tempGrid[i][j].setAttendance(curr.getAttendance(), curr.getEnrolled());
+
             }
         }
         Course temp = tempGrid[index1r][index1c];
@@ -228,6 +193,10 @@ public class Seminar {
         return tempGrid;
     }
 
+    /*
+    This is a helper method for the calculateScheduleBlocks() method below
+    This method randomly shuffles the values within a 2d course array and returns the shuffled array
+    */
     public Course[][] shuffleCourseCalendar(Course[][] grid) {
         for (int i = 0; i < 100; i++) {
             int rand1 = (int)(Math.random()*25);
@@ -238,6 +207,14 @@ public class Seminar {
         return grid;
     }
 
+    /*
+    This method optimizes the course schedule based on the number of student choices it is able to supply
+    This method works by slowly working its way from a randomized grid upwards until it has reached the highest score it can obtain from that grid
+    Ideally, the program would be able to score every possible permutation of the course schedule (25! permutations) and pick the best one
+    Unfortunately, however, 25! is far too large a number of grids to calculate in a reasonable amount of time
+    As a result, I decided to just pick 100 random grids (100 attempts) and run the optimization on each of them to hopefully get a grid that's at least close to perfect
+    This does mean that the schedule won't be exactly the same each time the program is run, but it will always be a fairly solid optimization
+    */
     public Course[][] calculateScheduleBlocks(ArrayList<Course> courseList, ArrayList<Student> students, ArrayList<Course> courses, Room[] rooms) {
         Course[][] currentGrid = new Course[5][5];
         Course[][] nextGrid = new Course[5][5];
@@ -267,9 +244,11 @@ public class Seminar {
             }
             if (checkSum > maxSum) {
                 maxSum = checkSum;
+                System.out.println(maxSum);
                 maxGrid = swapValues(currentGrid, 0, 0, 0, 0); // swapValues is used here as a way to copy the grid.
             }
         }
+        placeStudents(maxGrid, students, courses);
         for (int i = 0; i < maxGrid.length; i++) {
             rooms[i] = new Room(i+1);
             for (int j = 0; j < maxGrid[i].length; j++) {
@@ -280,6 +259,10 @@ public class Seminar {
         return maxGrid;
     }
 
+    /*
+    A minor runtime optimization that sorts courses from high interest to low interest
+    This way, the high interest courses which more students will want will be first and the program will more often be able to stop sooner
+    */
     public Course[] sortByInterest(Course[] arr) {
         for (int i = 0; i < arr.length; i++) {
             for (int j = i; j < arr.length; j++) {
@@ -293,6 +276,10 @@ public class Seminar {
         return arr;
     }
 
+    /*
+    This is a helper method for the calculateScheduleBlocks() function above
+    This method calculates the total number of choices students will be granted from a given schedule and returns it
+    */
     public int placeStudents(Course[][] courseCalendar, ArrayList<Student> students, ArrayList<Course> courses) {
         for (int row = 0; row < courseCalendar.length; row++) {
             sortByInterest(courseCalendar[row]);
@@ -320,6 +307,10 @@ public class Seminar {
         return score;
     }
 
+    /*
+    This method fills in the choices of students who didn't fill out the form based on remaining availability after optimization
+    This method has no return value
+    */
     public void placeLateStudents(Course[][] courseCalendar, ArrayList<Student> students, ArrayList<Course> courses) {
         int numChoices = 5;
         for (int choiceNum = 0; choiceNum < numChoices; choiceNum++) {
@@ -329,6 +320,10 @@ public class Seminar {
         }
     }
 
+    /*
+    This method prints out the course calender for the whole seminar event.
+    This method has no return value
+    */
     public void printCourseCalendar(Course[][] courseCalendar) {
         for (int row = 0; row < courseCalendar.length; row ++) {
             System.out.println("Timeslot " + (row+1)+":\n");
@@ -339,7 +334,11 @@ public class Seminar {
         }
     }
 
-    public void printStudentRoster(ArrayList<Student> students) {
+    /*
+    This method prints out the course roster for a specified student
+    This method has no return value
+    */
+    public void printStudentRoster(Course[][] courseCalendar, ArrayList<Student> students) {
         System.out.print("\n\nEnter the name of a student to search for: ");
         String testName = scan.nextLine();
         for (Student student : students) {
@@ -351,6 +350,10 @@ public class Seminar {
         System.out.println("\nThe student you're looking for doesn't exist!");
     }
 
+    /*
+    This method prints out the course roster for a specified room
+    This method has no return value
+    */
     public void printRoomRoster(Room[] rooms) {
         System.out.print("\n\nEnter a room number to search for: ");
         int testNum = Integer.parseInt(scan.nextLine());
@@ -361,13 +364,19 @@ public class Seminar {
         System.out.println("The room you're looking for doesn't exist!");
     }
 
+    /*
+    This method prints out the student roster for a specified course
+    This method has no return value
+    */
     public void printCourseRoster(Course[][] courseCalender) {
-        System.out.print("\n\nEnter the ID of a Course to search for: ");
+        System.out.print("\n\nEnter the ID number of a Course to search for: ");
         int testNum = Integer.parseInt(scan.nextLine());
         boolean found = false;
         for (int row = 0; row < courseCalender.length; row++) {
             for (Course course : courseCalender[row]) {
                 if (course.getCourseID() == testNum) {
+                    System.out.println(row);
+
                     System.out.println("\n" + course);
                     found = true;
                 }
@@ -377,54 +386,4 @@ public class Seminar {
             System.out.println("The course you're looking for doesn't exist!");
         }
     }
-
-
-        // for (int row = 0; row < courseCalendar.length; row++) {
-        //     // System.out.println(countDuplicateInstructors(courseGrid[row]));
-        //     score -= (students.size() * countDuplicateInstructors(courseCalendar[row]));
-        // }
-    /*
-    Possible rework to this function:
-    - Put all of the courses in in their default order and calculate a "sum" of conflicts.
-    -  Then swap two of them at a time if a swap would result in a lower sum (probably recursively) until no more swaps can be made.
-    // */
-    // public Course[] calculateScheduleBlocks(Course course, ArrayList<Course> courseRoster, ArrayList<Student> students) {
-    //     ArrayList<Integer> conflicts = calculateCourseConflicts(course, courseRoster, students);
-    //     courseRoster.remove(0);
-    //     conflicts.remove(0);
-    //     Course[] courseBlocks = new Course[5];
-    //     ArrayList<Integer> newConflicts = new ArrayList<Integer>();
-    //     courseBlocks[0] = course;
-        
-    //     for (int i = 1; i < 5; i++) {
-    //         int minIndex = findMinIndex(conflicts);
-    //         for (int j = 0; j < courseRoster.size(); j++) {
-    //             if (countInstructor(courseRoster, courseRoster.get(j).getInstructorName())*5 > courseRoster.size()) {
-    //                 minIndex = j;
-    //             }
-    //         }
-    //         courseBlocks[i] = courseRoster.get(minIndex);
-    //         newConflicts = calculateCourseConflicts(courseBlocks[i], courseRoster, students);
-    //         for (int j = 0; j < courseRoster.size(); j++) {
-    //             conflicts.set(j, conflicts.get(j) + newConflicts.get(j));
-    //         }
-    //         courseRoster.remove(minIndex);
-    //         conflicts.remove(minIndex);
-    //     }
-    //     return courseBlocks;
-    // }
-
-    // public Course[][] generateCourseCalendar(ArrayList<Course> courseRoster, ArrayList<Student> students) {
-    //     Course[][] courseCalendar = new Course[5][5];
-    //     for (int i = 0; i < courseCalendar.length; i++) {
-    //         Course[] block1 = calculateScheduleBlocks(courseRoster.get(0), courseRoster, students);
-    //         for (int j = 0; j < block1.length; j++) {
-    //             courseCalendar[i][j] = block1[j];
-    //             System.out.println(block1[j]);
-    //         }
-    //         System.out.println();
-    //     }
-    //     return courseCalendar;
-    // }
-   
 }

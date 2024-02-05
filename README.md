@@ -34,6 +34,6 @@ Today, I worked on combining the student placement logic and the course placemen
 Most of today was also spent fixing the bugs that plagued my program yesterday, but, after hours of testing, I was finally able to get my program working. Additionally, after some more optimization, my average choices per student is now up to 4.353.
 
 2/4/24: <br>
-More bug fixes and formatting to be printed. Unfortunately, these bugs lowered my average slightly, and it now sits between 4.23 and 4.3 (although it is slightly random now due to computational limits).
+More bug fixes and formatting to be printed. Unfortunately, fixing these bugs lowered my average slightly, and it now sits between 4.23 and 4.3 (although it is slightly random now due to computational limits). I also added lots of comments today.
 
 
